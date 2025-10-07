@@ -4,11 +4,12 @@ A little exercise to build a web application following an agile development proc
 
 ## Product vision statement
 
-See instructions. Delete this line and place the Product Vision Statement here.
+Our app empowers music lovers to connect by creating profiles, rating songs, and discovering others’ favourite tracks in a fun and social way.
 
 ## User stories
 
-See instructions. Delete this line and place a link to the user stories here.
+All user stories are tracked as GitHub Issues:  
+👉 [View User Stories on GitHub Issues](https://github.com/swe-students-fall2025/2-web-app-minecraftmovie/issues)
 
 ## Steps necessary to run the software
 
