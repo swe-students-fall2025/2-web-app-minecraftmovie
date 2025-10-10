@@ -1,9 +1,45 @@
-{% extends "base.html" %}  <!-- uses base layout from "base.html" -->
+{% extends "base.html" %}
 {% block page_title %}Home · Rate Songs{% endblock %}
+
 {% block page_content %}
   <section class="hero">
-    <h1>{{ page_title_text }}</h1>    <!-- main text in home page-->
+    <h1>{{ page_title_text }}</h1>
     <p>Next steps: add songs, profiles, and ratings.</p>
     <a class="button" href="#">Coming soon</a>
+  </section>
+
+  <section class="content">
+    <h2>Songs in Database</h2>
+
+    {% if songs and songs|length > 0 %}
+      <p><em>Found {{ songs|length }} song{{ songs|length != 1 and 's' or '' }}.</em></p>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th style="text-align:left;">Title</th>
+            <th style="text-align:left;">Artist</th>
+            <th style="text-align:left;">Year</th>
+            <th style="text-align:left;">Genre</th>
+            <th style="text-align:left;">_id</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for s in songs %}
+            <tr>
+              <td>{{ s.title or '—' }}</td>
+              <td>{{ s.artist or '—' }}</td>
+              <td>{{ s.year if 'year' in s else '—' }}</td>
+              <td>{{ s.genre if 'genre' in s else '—' }}</td>
+              <td><code>{{ s._id }}</code></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <div class="empty-state">
+        <p>No songs in the database yet.</p>
+      </div>
+    {% endif %}
   </section>
 {% endblock %}
