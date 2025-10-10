@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>{% block page_title %}Rate Songs{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+  </head>
+  <body>
+    <header class="app-header">
+      <div class="brand">Rate Songs</div>  <!-- header for all pages -->
+    </header>
+
+    <main class="app-main">
+      {% block page_content %}{% endblock %}
+    </main>
+
+    <nav class="bottom-nav">
+      <a href="{{ url_for('home.home_view') }}">Home</a>   <!-- bar at the bottom for buttons -->
+    </nav>
+  </body>
+</html>

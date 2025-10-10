@@ -1,0 +1,39 @@
+:root { color-scheme: light; }
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; font-family: system-ui, Arial, sans-serif; color: #111; background: #fafafa; }
+
+/* Top header (permenantly at top) */
+.app-header {
+  position: sticky; top: 0; z-index: 10;
+  display: flex; align-items: center; justify-content: center;
+  height: 56px; background: #fff; border-bottom: 1px solid #eee;
+}
+.brand { font-weight: 700; font-size: 18px; }
+
+/* Main content area */
+
+.app-main {
+  min-height: 100dvh;
+  padding: 16px 16px 90px; /* space for bottom nav */
+}
+
+/* bottom nav bar */
+
+.bottom-nav {
+  position: fixed; left: 0; right: 0; bottom: 0;
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 4px; padding: 8px; background: #fff; border-top: 1px solid #eee;
+}
+/* nav links */
+.bottom-nav a { text-align: center; padding: 10px 0; text-decoration: none; color: #111; }
+
+/* base layout for different classes (can be adjusted) */
+
+.hero h1 { font-size: 24px; margin: 0 0 8px; }
+.hero p { margin: 6px 0; }
+.button, button {
+  display: inline-block; padding: 12px 16px; border-radius: 12px;
+  border: 1px solid #ddd; background: #fff; text-decoration: none; color: #111;
+}
+button:active, .button:active { transform: scale(0.98); }
+input, select, textarea { width: 100%; padding: 12px; font-size: 16px; border: 1px solid #ddd; border-radius: 12px; }
