@@ -1,0 +1,12 @@
+# Core web framework, versions for all
+Flask==3.0.3
+
+pymongo==4.10.1
+
+python-dotenv==1.0.1
+
+# for user login/register
+Flask-Login==0.6.3
+
+# For password hashing (built-in Werkzeug works too, but keep explicit)
+Werkzeug==3.0.4
