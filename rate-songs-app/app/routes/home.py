@@ -4,7 +4,7 @@ from bson import ObjectId
 
 home_bp = Blueprint("home", __name__)
 
-@home_bp.get("/")
+@home_bp.get("/", endpoint="home")
 def home_view():
     page_title_text = "Rate Songs"
 

@@ -37,3 +37,45 @@ html, body { margin: 0; padding: 0; font-family: system-ui, Arial, sans-serif; c
 }
 button:active, .button:active { transform: scale(0.98); }
 input, select, textarea { width: 100%; padding: 12px; font-size: 16px; border: 1px solid #ddd; border-radius: 12px; }
+
+/* navigation links */
+
+.nav-links { position: absolute; right: 20px; top: 14px; }
+.nav-link { text-decoration: none; font-weight: 500; }
+.nav-link:hover { text-decoration: underline; }
+
+/* for login */
+
+.login-container {
+  display: flex; justify-content: center; align-items: center;
+  min-height: calc(100vh - 56px);
+  background: #fafafa;
+}
+.login-card {
+  background: #fff; padding: 40px; width: 300px; text-align: center;
+  border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,.1);
+}
+.logo-placeholder {
+  background: #ddd; width: 100px; height: 100px; margin: 0 auto 20px;
+  display: flex; align-items: center; justify-content: center; border-radius: 12px;
+  font-size: 14px;
+}
+.login-form label { display: block; text-align: left; font-size: 14px; margin: 10px 0 4px; }
+.login-form input {
+  width: 100%; padding: 10px; margin-bottom: 12px;
+  border: 1px solid #ccc; border-radius: 6px;
+}
+.login-btn {
+  width: 100%; padding: 10px; border: none; border-radius: 8px; cursor: pointer;
+  font-size: 16px; background: #111; color: #fff; transition: .25s;
+}
+.login-btn:hover { background: #333; }
+.forgot-password { display: block; margin-top: 15px; font-size: 14px; color: #555; }
+.forgot-password:hover { text-decoration: underline; }
+
+.flash-wrap { margin-bottom: 12px; text-align: left; }
+.flash { padding: 10px; border-radius: 8px; font-size: 14px; }
+.flash-error { background: #ffe2e2; }
+.flash-success { background: #e6ffe6; }
+.flash-info { background: #e7f0ff; }
+

@@ -8,7 +8,16 @@
   </head>
   <body>
     <header class="app-header">
-      <div class="brand">Rate Songs</div>  <!-- header for all pages -->
+      <div class="brand"><a href="{{ url_for('home.home') }}">Rate Songs</a></div>
+
+      <nav class="nav-links">
+        {% if current_user.is_authenticated %}
+          <a href="{{ url_for('profile.view_profile') }}" class="nav-link">View Profile</a>
+          <a href="{{ url_for('auth.logout') }}" class="nav-link" style="margin-left:12px;">Logout</a>
+        {% else %}
+          <a href="{{ url_for('auth.login') }}" class="nav-link">Login</a>
+        {% endif %}
+      </nav>
     </header>
 
     <main class="app-main">
@@ -16,7 +25,7 @@
     </main>
 
     <nav class="bottom-nav">
-      <a href="{{ url_for('home.home_view') }}">Home</a>   <!-- bar at the bottom for buttons -->
+      <a href="{{ url_for('home.home') }}">Home</a>   <!-- bar at the bottom for buttons -->
     </nav>
   </body>
 </html>
