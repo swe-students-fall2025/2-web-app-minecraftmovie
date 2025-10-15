@@ -8,7 +8,13 @@ html, body { margin: 0; padding: 0; font-family: system-ui, Arial, sans-serif; c
   display: flex; align-items: center; justify-content: center;
   height: 56px; background: #fff; border-bottom: 1px solid #eee;
 }
-.brand { font-weight: 700; font-size: 18px; }
+.brand { position:absolute; font-weight: 700; font-size: 18px;}
+.brand a {color:black; text-decoration: none;}
+.brand a:hover {
+  color: #797979;
+  text-decoration: underline; /* optional hover color */
+}
+
 
 /* Main content area */
 
@@ -26,6 +32,7 @@ html, body { margin: 0; padding: 0; font-family: system-ui, Arial, sans-serif; c
 }
 /* nav links */
 .bottom-nav a { text-align: center; padding: 10px 0; text-decoration: none; color: #111; }
+.bottom-nav a:hover { text-decoration:underline; color:#797979; }
 
 /* base layout for different classes (can be adjusted) */
 
@@ -39,10 +46,10 @@ button:active, .button:active { transform: scale(0.98); }
 input, select, textarea { width: 100%; padding: 12px; font-size: 16px; border: 1px solid #ddd; border-radius: 12px; }
 
 /* navigation links */
-
-.nav-links { position: absolute; right: 20px; top: 14px; }
-.nav-link { text-decoration: none; font-weight: 500; }
-.nav-link:hover { text-decoration: underline; }
+.nav-links {right: 20px; top: 14px; }
+.nav-links #view-profile{margin-right: 220px}
+.nav-link { text-decoration: none; font-weight: 500; color:black;}
+.nav-link:hover { text-decoration: underline; color: #797979;}
 
 /* for login */
 
@@ -78,4 +85,20 @@ input, select, textarea { width: 100%; padding: 12px; font-size: 16px; border: 1
 .flash-error { background: #ffe2e2; }
 .flash-success { background: #e6ffe6; }
 .flash-info { background: #e7f0ff; }
+
+
+/* for profile page */
+.fav-songs li {
+  padding-bottom: 10px;
+}
+
+.recent-songs li {
+  padding-bottom: 10px;
+}
+
+.profile-stats > p {
+  padding-bottom: 0px;
+  padding-top: -10px;
+  padding-left: 20px;
+}
 
