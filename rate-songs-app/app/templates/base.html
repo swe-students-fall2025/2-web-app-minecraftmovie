@@ -15,7 +15,7 @@
           <a href="{{ url_for('profile.view_profile') }}" class="nav-link" id="view-profile">View Profile</a>
           <a href="{{ url_for('auth.logout') }}" class="nav-link" style="margin-left:12px;">Logout</a>
         {% else %}
-          <a href="{{ url_for('auth.login') }}" class="nav-link">Login</a>
+          <a href="{{ url_for('auth.login') }}" class="nav-link" id="login" style="margin-left:50px;">Login</a>
         {% endif %}
       </nav>
     </header>
