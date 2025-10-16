@@ -21,7 +21,7 @@
             <th style="text-align:left;">Artist</th>
             <th style="text-align:left;">Year</th>
             <th style="text-align:left;">Genre</th>
-            <th style="text-align:left;">_id</th>
+            <!-- <th style="text-align:left;">_id</th> -->
           </tr>
         </thead>
         <tbody>
@@ -31,7 +31,7 @@
               <td>{{ s.artist or '—' }}</td>
               <td>{{ s.year if 'year' in s else '—' }}</td>
               <td>{{ s.genre if 'genre' in s else '—' }}</td>
-              <td><code>{{ s._id }}</code></td>
+              <!-- <td><code>{{ s._id }}</code></td> -->
             </tr>
           {% endfor %}
         </tbody>
