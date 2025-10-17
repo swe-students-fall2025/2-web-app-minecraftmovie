@@ -9,15 +9,10 @@
   </div>
 
   <section style="border:2px solid #60a5fa;border-radius:10px;padding:12px;">
-    <h1 style="font-weight:700;margin-bottom:8px;">Your Songs</h1>
+    <h1 style="font-weight:700;margin-bottom:8px;">All Songs</h1>
     <ol style="margin-left:1.25rem; line-height:1.7;">
       {% for s in items %}
-        <li>
-          {{ s.title }} | {{ s.artist }}
-          {% if user_ratings.get(s._id) is not none %}
-            | Your rating: {{ user_ratings.get(s._id) }}
-          {% endif %}
-        </li>
+        <li>{{ s.title }} | {{ s.artist }} | {{ s.rating }}</li>
       {% else %}
         <li class="muted">No songs</li>
       {% endfor %}
