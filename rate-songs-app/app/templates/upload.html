@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block page_title %}Upload{% endblock %}
+{% block page_content %}
+<h1>Upload a Song</h1>
+
+<form method="POST" action="{{ url_for('upload.upload_song') }}">
+  <label for="title">Song Title:</label><br>
+  <input type="text" id="title" name="title" required><br><br>
+
+  <label for="artist">Artist:</label><br>
+  <input type="text" id="artist" name="artist" required><br><br>
+
+  <label for="rating">Rating:</label><br>
+  <select name="rating" id="rating" required>
+    <option value="1">1 ★</option>
+    <option value="2">2 ★</option>
+    <option value="3">3 ★</option>
+    <option value="4">4 ★</option>
+    <option value="5">5 ★</option>
+  </select><br><br>
+
+  <label for="review">Review:</label><br>
+  <textarea name="review" id="review" rows="3"></textarea><br><br>
+
+  <input type="checkbox" id="favorite" name="favorite">
+  <label for="favorite">Mark as Favorite</label><br><br>
+
+  <button type="submit">Submit</button>
+</form>
+
+
+
+{% endblock %}
