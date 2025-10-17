@@ -1,60 +1,48 @@
 # app/routes/home.py
 
-# import
-from flask import Blueprint, render_template, request, current_app, session
+# imports
+from flask import Blueprint, render_template, request, session, current_app
 
-# bp
+# blueprint
 home_bp = Blueprint("home", __name__)
 
 # route
-@home_bp.get("/", endpoint="home")
-def home_view():
+@home_bp.route("/")
+def home():
     # query
-    q = (request.args.get("q") or "").strip()
-    y1 = (request.args.get("y1") or "").strip()
-    y2 = (request.args.get("y2") or "").strip()
+    q = request.args.get("q", "").strip()
 
     # history
+    hist = session.get("profile_history", [])
     if q:
-        hist = session.get("history", [])
-        if q not in hist:
-            hist = ([q] + hist)[:6]
-        session["history"] = hist
-    history = session.get("history", [])
+        hist = [v for v in [q] + hist if v][:5]
+        session["profile_history"] = hist
 
     # filter
     filt = {}
     if q:
         rx = {"$regex": q, "$options": "i"}
-        ors = [{"title": rx}, {"artist": rx}, {"genre": rx}]
-        if q.isdigit():
-            ors.append({"year": int(q)})
-        filt["$or"] = ors
-    yr = {}
-    if y1.isdigit():
-        yr["$gte"] = int(y1)
-    if y2.isdigit():
-        yr["$lte"] = int(y2)
-    if yr:
-        filt["year"] = yr if "year" not in filt else {**filt["year"], **yr}
+        filt = {"$or": [{"name": rx}, {"email": rx}]}
 
-    # find
-    songs = list(current_app.db.songs.find(filt).sort("title", 1).limit(100))
+    # users
+    users = list(
+        current_app.db.users
+        .find(filt, {"password": 0})
+        .sort("name", 1)
+        .limit(100)
+    )
 
     # genres
     try:
-        genres = [g for g in current_app.db.songs.distinct("genre") if g][:6]
+        genres = [g for g in current_app.db.songs.distinct("genre") if g][:18]
     except Exception:
         genres = []
 
     # render
     return render_template(
         "home.html",
-        page_title_text="Rate Songs",
-        songs=songs,
         q=q,
-        y1=y1,
-        y2=y2,
-        history=history,
+        history=hist,
+        users=users,
         genres=genres,
     )
