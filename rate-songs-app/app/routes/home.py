@@ -1,20 +1,60 @@
-from flask import Blueprint, render_template
-from flask import current_app
-from bson import ObjectId
+# app/routes/home.py
 
+# import
+from flask import Blueprint, render_template, request, current_app, session
+
+# bp
 home_bp = Blueprint("home", __name__)
 
+# route
 @home_bp.get("/", endpoint="home")
 def home_view():
-    page_title_text = "Rate Songs"
+    # query
+    q = (request.args.get("q") or "").strip()
+    y1 = (request.args.get("y1") or "").strip()
+    y2 = (request.args.get("y2") or "").strip()
 
-    #read a few docs from MongoDB (safe even if collection is empty)
-    songs_cursor = current_app.db.songs.find().limit(20)  # NEW
-    songs = []  
-    for s in songs_cursor:  
-        # convert ObjectId to string so Jinja doesn’t choke if you print it  
-        if isinstance(s.get("_id"), ObjectId): 
-            s["_id"] = str(s["_id"])  
-        songs.append(s)  
+    # history
+    if q:
+        hist = session.get("history", [])
+        if q not in hist:
+            hist = ([q] + hist)[:6]
+        session["history"] = hist
+    history = session.get("history", [])
 
-    return render_template("home.html", page_title_text=page_title_text, songs=songs)
+    # filter
+    filt = {}
+    if q:
+        rx = {"$regex": q, "$options": "i"}
+        ors = [{"title": rx}, {"artist": rx}, {"genre": rx}]
+        if q.isdigit():
+            ors.append({"year": int(q)})
+        filt["$or"] = ors
+    yr = {}
+    if y1.isdigit():
+        yr["$gte"] = int(y1)
+    if y2.isdigit():
+        yr["$lte"] = int(y2)
+    if yr:
+        filt["year"] = yr if "year" not in filt else {**filt["year"], **yr}
+
+    # find
+    songs = list(current_app.db.songs.find(filt).sort("title", 1).limit(100))
+
+    # genres
+    try:
+        genres = [g for g in current_app.db.songs.distinct("genre") if g][:6]
+    except Exception:
+        genres = []
+
+    # render
+    return render_template(
+        "home.html",
+        page_title_text="Rate Songs",
+        songs=songs,
+        q=q,
+        y1=y1,
+        y2=y2,
+        history=history,
+        genres=genres,
+    )
