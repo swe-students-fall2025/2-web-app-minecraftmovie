@@ -13,8 +13,15 @@ All user stories are tracked as GitHub Issues:
 
 ## Steps necessary to run the software
 
-See instructions. Delete this line and place instructions to download, configure, and run the software here.
+1. git clone https://github.com/your-team/rate-songs-app.git
+2. navigate to rate-songs-app, cd rate-songs-app
+3. Create '.env' file in "rate-songs-app" repo, fill with contents in submission
+4. create virtual enviorment, python -m venv .venv (if created once no need to do again)
+5. activate it by running: Windows: .venv\Scripts\activate ,  macOS/Linux: source .venv/bin/activate
+6. install all versions needed, pip install -r requirements.txt
+7. run command "python run.py"
+
 
 ## Task boards
 
-See instructions. Delete this line and place a link to the task boards here.
+Task Board: (https://github.com/orgs/swe-students-fall2025/projects/6)
