@@ -1,19 +1,61 @@
+{# app/templates/home.html #}
 {% extends "base.html" %}
 {% block page_title %}Home · Rate Songs{% endblock %}
 
 {% block page_content %}
-  <section class="hero">
-    <h1>{{ page_title_text }}</h1>
-    <p>Next steps: add songs, profiles, and ratings.</p>
-    <a class="button" href="#">Coming soon</a>
+  <!-- search -->
+  <section style="margin-top:.5rem;">
+    <label for="q"><strong>Song Search</strong></label>
+    <form action="{{ url_for('home.home') }}" method="get" style="display:flex;gap:.5rem;margin-top:.4rem;">
+      <input id="q" name="q" type="search" value="{{ q or '' }}" placeholder="Search title, artist, genre, or year…" style="flex:1;padding:.6rem .8rem;">
+      <button class="button" type="submit">Search</button>
+      {% if q or y1 or y2 %}<a class="button" href="{{ url_for('home.home') }}">Clear</a>{% endif %}
+    </form>
+
+    {% if history %}
+      <p style="margin:.75rem 0 0;"><strong>Your Search History</strong></p>
+      <p>
+        {% for item in history %}
+          <a href="{{ url_for('home.home', q=item) }}">{{ item }}</a>{% if not loop.last %} | {% endif %}
+        {% endfor %}
+      </p>
+    {% endif %}
+
+    <!-- period -->
+    <div style="margin-top:1.25rem;">
+      <p style="margin:.25rem 0;"><strong>Search by time period</strong></p>
+      <form action="{{ url_for('home.home') }}" method="get" style="display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;">
+        <input name="y1" inputmode="numeric" pattern="[0-9]*" value="{{ y1 or '' }}" placeholder="From year" style="width:8rem;padding:.6rem .8rem;">
+        <span>—</span>
+        <input name="y2" inputmode="numeric" pattern="[0-9]*" value="{{ y2 or '' }}" placeholder="To year" style="width:8rem;padding:.6rem .8rem;">
+        {% if q %}<input type="hidden" name="q" value="{{ q }}">{% endif %}
+        <button class="button" type="submit">Filter</button>
+      </form>
+    </div>
   </section>
 
-  <section class="content">
-    <h2>Songs in Database</h2>
+  <!-- browse buttons -->
+  <section style="margin-top:1rem;">
+    <h3>Browse by taste</h3>
+    <div class="quick-grid">
+      {% set preset = ['Pop','Rock','Hip-Hop','Alternative','R&B','Soul','Other','Electronic','Indie','Country','Jazz','Metal','Pop/R&B'] %}
+      {% for label in preset %}
+        <a class="quick-btn" href="{{ url_for('home.home', q=label) }}" title="{{ label }}">{{ label }}</a>
+      {% endfor %}
+      {% for g in genres %}
+        {% if g and g not in preset %}
+          <a class="quick-btn" href="{{ url_for('home.home', q=g) }}" title="{{ g }}">{{ g }}</a>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </section>
 
-    {% if songs and songs|length > 0 %}
+  <!-- table -->
+  <section class="content" style="margin-top:1.25rem;">
+    <h2>Songs in Database{% if q %} — “{{ q }}”{% endif %}{% if y1 or y2 %} {% if y1 %}(from {{ y1 }}){% endif %}{% if y2 %}(to {{ y2 }}){% endif %}{% endif %}</h2>
+
+    {% if songs %}
       <p><em>Found {{ songs|length }} song{{ songs|length != 1 and 's' or '' }}.</em></p>
-
       <table class="table">
         <thead>
           <tr>
@@ -21,7 +63,6 @@
             <th style="text-align:left;">Artist</th>
             <th style="text-align:left;">Year</th>
             <th style="text-align:left;">Genre</th>
-            <!-- <th style="text-align:left;">_id</th> -->
           </tr>
         </thead>
         <tbody>
@@ -31,15 +72,12 @@
               <td>{{ s.artist or '—' }}</td>
               <td>{{ s.year if 'year' in s else '—' }}</td>
               <td>{{ s.genre if 'genre' in s else '—' }}</td>
-              <!-- <td><code>{{ s._id }}</code></td> -->
             </tr>
           {% endfor %}
         </tbody>
       </table>
     {% else %}
-      <div class="empty-state">
-        <p>No songs in the database yet.</p>
-      </div>
+      <p><em>No matches.</em></p>
     {% endif %}
   </section>
 {% endblock %}
