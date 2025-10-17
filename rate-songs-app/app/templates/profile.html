@@ -34,6 +34,12 @@
     <p>1 ★ Songs: {{ stats.one_star }} songs</p>
   </div>
 
+  <a href="{{ url_for('songs.all_songs') }}"
+   class="button"
+   style="display:block;width:100%;text-align:center;margin-top:12px;">
+  All Songs
+</a>
+
 
 
 {% endblock %}

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block page_title %}All Songs{% endblock %}
+{% block page_content %}
+  <div class="profile-bar" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+    <div class="username-chip" style="padding:6px 10px;border-radius:6px;background:#e5e7eb;font-weight:600;">
+      {{ (current_user.username if current_user.is_authenticated else "Username") or "Username" }}
+    </div>
+    <a href="{{ url_for('profile.view_profile') }}" class="nav-link">View Profile</a>
+  </div>
+
+  <section class="card" style="border:2px solid #60a5fa;border-radius:10px;padding:12px;">
+    <h1 style="font-weight:700;margin-bottom:8px;">All Songs</h1>
+    <ol style="margin-left:1.25rem; line-height:1.7;">
+      {% for s in items %}
+        <li>{{ s.title }} | {{ s.artist }}</li>
+      {% else %}
+        <li class="muted">No songs</li>
+      {% endfor %}
+    </ol>
+
+    <div style="margin-top:14px;text-align:center;">
+      {% if has_next %}
+        <a class="button" href="{{ url_for('songs.all_songs', page=page+1) }}">Next Page</a>
+      {% else %}
+        <button class="button" disabled>Next Page</button>
+      {% endif %}
+    </div>
+  </section>
+{% endblock %}

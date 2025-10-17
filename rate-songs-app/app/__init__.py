@@ -1,9 +1,11 @@
+# app/__init__.py
 import os
 from flask import Flask
 from dotenv import load_dotenv
 from pymongo import MongoClient
 from flask_login import LoginManager
 from bson import ObjectId
+from app.models import UserDoc
 
 load_dotenv()
 
@@ -29,41 +31,32 @@ def create_app() -> Flask:
     mongo_db = mongo_client[mongo_db_name]
     application.db = mongo_db
 
-    # Make sure user emails are unique
+    #
     mongo_db.users.create_index("email", unique=True)
 
     # Flask-Login
     login_manager.init_app(application)
     login_manager.login_view = "auth.login"
 
-    # register home blueprint (follow similar pattern for other blueprints)
+    # Register blueprints
     from .routes.home import home_bp
     from .routes.auth import auth_bp
-    from .routes.profile import profile_bp    
+    from .routes.profile import profile_bp
+    from .routes.songs import songs_bp
+
     application.register_blueprint(home_bp)
     application.register_blueprint(auth_bp)
     application.register_blueprint(profile_bp)
+    application.register_blueprint(songs_bp)
 
     return application
 
-# ---- User adapter for Flask-Login ----
-class User:
-    def __init__(self, doc): self.doc = doc
-    @property
-    def id(self): return str(self.doc["_id"])
-    def get_id(self): return self.id
-    @property
-    def is_authenticated(self): return True
-    @property
-    def is_active(self): return True
-    @property
-    def is_anonymous(self): return False
-
 @login_manager.user_loader
 def load_user(user_id: str):
-    if not user_id: return None
+    if not user_id:
+        return None
     try:
         doc = mongo_db.users.find_one({"_id": ObjectId(user_id)})
-        return User(doc) if doc else None
+        return UserDoc(doc) if doc else None
     except Exception:
         return None
