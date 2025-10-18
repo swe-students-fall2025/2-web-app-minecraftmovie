@@ -8,6 +8,6 @@ def register_blueprints(app):
     app.register_blueprint(home_bp)
     app.register_blueprint(auth_bp)
     app.register_blueprint(profile_bp)
-    app.register_blueprint(songs_bp)   # <-- NEW
-    app.register_blueprint(upload_bp) # <-- New
+    app.register_blueprint(songs_bp)  
+    app.register_blueprint(upload_bp) 
 
