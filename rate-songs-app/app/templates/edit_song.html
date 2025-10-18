@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block page_title %}Edit Song{% endblock %}
+{% block page_content %}
+  <h1>Edit Song</h1>
+
+  <form method="POST">
+    <!-- Title -->
+    <label for="title">Song Title:</label><br>
+    <input
+      type="text"
+      id="title"
+      name="title"
+      value="{{ song.title }}"
+      required
+    ><br><br>
+
+    <!-- Artist -->
+    <label for="artist">Artist:</label><br>
+    <input
+      type="text"
+      id="artist"
+      name="artist"
+      value="{{ song.artist }}"
+      required
+    ><br><br>
+
+    <!-- Rating -->
+    <label for="rating">Rating:</label><br>
+    <select name="rating" id="rating" required>
+      <option value="1" {% if song.rating == 1 %}selected{% endif %}>1 ★</option>
+      <option value="2" {% if song.rating == 2 %}selected{% endif %}>2 ★</option>
+      <option value="3" {% if song.rating == 3 %}selected{% endif %}>3 ★</option>
+      <option value="4" {% if song.rating == 4 %}selected{% endif %}>4 ★</option>
+      <option value="5" {% if song.rating == 5 %}selected{% endif %}>5 ★</option>
+    </select><br><br>
+
+    <!-- Review -->
+    <label for="review">Review:</label><br>
+    <textarea
+      name="review"
+      id="review"
+      rows="3"
+      placeholder="Write your thoughts here..."
+    >{{ song.review or '' }}</textarea><br><br>
+
+    <!-- Favorite -->
+    <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px; white-space:nowrap;">
+        <label for="favorite" style="margin:0;">Mark as Favorite</label>
+        <input
+          type="checkbox"
+          id="favorite"
+          name="favorite"
+          {% if song.favorite %}checked{% endif %}
+          style="margin:0;"
+        >
+      </div>
+
+
+    <button type="submit">Save Changes</button>
+  </form>
+{% endblock %}

@@ -44,12 +44,16 @@ def create_app() -> Flask:
     from .routes.profile import profile_bp
     from .routes.songs import songs_bp
     from .routes.upload import upload_bp
+    from .routes.edit import edit_bp
+    from .routes.delete import delete_bp
 
     application.register_blueprint(home_bp)
     application.register_blueprint(auth_bp)
     application.register_blueprint(profile_bp)
     application.register_blueprint(songs_bp)
     application.register_blueprint(upload_bp)
+    application.register_blueprint(edit_bp)
+    application.register_blueprint(delete_bp)
 
     return application
 
