@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block page_title %}{{ user.username }}'s Profile{% endblock %}
+
+{% block page_content %}
+  <h1>{{ user.username }}'s Profile</h1>
+  <p><strong>Username:</strong> {{ user.username }}</p>
+
+  <div class="fav-songs">
+    <h2>Favorite Songs</h2>
+    <ol>
+      {% for song in favorite_songs %}
+        <li>{{ song.title }} | {{ song.artist }} | {{ song.rating }} ★| {{ song.review }} </li>
+      {% endfor %}
+    </ol>
+  </div>
+
+  <div class="recent-songs">
+    <h2>Recently Added</h2>
+    <ol>
+      {% for song in recent_songs %}
+        <li>{{ song.title }} | {{ song.artist }} | {{ song.rating }} ★</li>
+      {% endfor %}
+    </ol>
+  </div>
+
+  <div class="profile-stats">
+    <h2>Stats</h2>
+    {% if stats %}
+      <p>Total Songs: {{ stats.total }} songs</p>
+      <p>5 ★ Songs: {{ stats.five_star }} songs</p>
+      <p>4 ★ Songs: {{ stats.four_star }} songs</p>
+      <p>3 ★ Songs: {{ stats.three_star }} songs</p>
+      <p>2 ★ Songs: {{ stats.two_star }} songs</p>
+      <p>1 ★ Songs: {{ stats.one_star }} songs</p>
+    {% else %}
+      <p>No stats available.</p>
+    {% endif %}
+  </div>
+
+  <a href="{{ url_for('songs.all_songs') }}"
+     class="button"
+     style="display:block;width:100%;text-align:center;margin-top:12px;">
+    All Songs
+  </a>
+{% endblock %}

@@ -46,6 +46,7 @@ def create_app() -> Flask:
     from .routes.upload import upload_bp
     from .routes.edit import edit_bp
     from .routes.delete import delete_bp
+    from .routes.other_user_profile import other_user_profile_bp
 
     application.register_blueprint(home_bp)
     application.register_blueprint(auth_bp)
@@ -54,6 +55,7 @@ def create_app() -> Flask:
     application.register_blueprint(upload_bp)
     application.register_blueprint(edit_bp)
     application.register_blueprint(delete_bp)
+    application.register_blueprint(other_user_profile_bp)
 
     return application
 
