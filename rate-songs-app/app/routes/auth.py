@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, redirect, url_for, request, flash,
 from flask_login import login_user, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from app.models import UserDoc
+from app import mongo_db  
 
 auth_bp = Blueprint("auth", __name__)
 
@@ -50,3 +51,34 @@ def logout():
         logout_user()
         flash("Logged out.", "info")
     return redirect(url_for("home.home"))
+
+@auth_bp.route("/forgot-password", methods=["GET", "POST"])
+def forgot_password():
+    if request.method == "POST":
+        email = (request.form.get("email") or "").strip().lower()
+        new_pw = request.form.get("new_password") or ""
+        confirm = request.form.get("confirm_password") or ""
+
+        # basic checks
+        if not email or not new_pw or not confirm:
+            flash("Please fill in all fields.", "error")
+            return render_template("forgot_password.html")
+
+        if new_pw != confirm:
+            flash("Passwords do not match.", "error")
+            return render_template("forgot_password.html")
+
+        user = mongo_db.users.find_one({"email": email})
+        if user is None:
+            flash("No account found for that email.", "error")
+            return render_template("forgot_password.html")
+
+        # update the stored hash
+        pw_hash = generate_password_hash(new_pw)
+        mongo_db.users.update_one({"email": email}, {"$set": {"password_hash": pw_hash}})
+
+        flash("Password updated. You can now log in.", "success")
+        return redirect(url_for("auth.login"))
+
+    # GET
+    return render_template("forgot_password.html")
