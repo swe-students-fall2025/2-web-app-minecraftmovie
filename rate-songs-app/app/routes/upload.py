@@ -1,6 +1,8 @@
 from flask import Blueprint, render_template, request, redirect, url_for, current_app
 from flask_login import login_required, current_user
 from bson import ObjectId
+from datetime import datetime, timezone
+
 
 upload_bp = Blueprint("upload", __name__)
 
@@ -20,7 +22,10 @@ def upload_song():
             "rating": rating,
             "review": request.form.get("review") or "",
             "favorite": bool(request.form.get("favorite")),
-            "user_id": ObjectId(current_user.doc["_id"])
+            "user_id": ObjectId(current_user.doc["_id"]),
+            "user_id": ObjectId(current_user.doc["_id"]),  # who uploaded it
+            "owner_id": str(current_user.get_id()),        # new field for filtering
+            "created_at": datetime.now(timezone.utc),               # timestamp
         }
 
         current_app.db.songs.insert_one(song_data)

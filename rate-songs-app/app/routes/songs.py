@@ -1,18 +1,15 @@
 from flask import Blueprint, render_template, request, current_app
+from flask_login import login_required, current_user
 
 songs_bp = Blueprint("songs", __name__)
 
 @songs_bp.route("/songs/all")
+@login_required
 def all_songs():
-    # Prefer the db handle attached in app/__init__.py
-    db = getattr(current_app, "db", None)
-    if db is None:
-        # Fallback if someone imports mongo_db directly elsewhere
-        from app import mongo_db as db
+    db = current_app.db
+    songs_col = db.songs
+    uid = current_user.get_id()
 
-    coll = db.songs
-
-    # pagination (15 per page)
     try:
         page = max(1, int(request.args.get("page", "1")))
     except ValueError:
@@ -20,10 +17,12 @@ def all_songs():
     PER_PAGE = 15
     skip = (page - 1) * PER_PAGE
 
-    items = list(coll.find().sort("title", 1).skip(skip).limit(PER_PAGE))
-    has_next = coll.count_documents({}) > skip + len(items)
+    #only this user's songs; rating is stored on the song doc itself
+    q = {"owner_id": uid}
+    items = list(songs_col.find(q).sort("title", 1).skip(skip).limit(PER_PAGE))
+    total = songs_col.count_documents(q)
+    has_next = total > skip + len(items)
 
-    # Stringify _id for safe templating/links
     for s in items:
         s["_id"] = str(s["_id"])
 
@@ -33,4 +32,3 @@ def all_songs():
         page=page,
         has_next=has_next,
     )
-
