@@ -1,42 +1,53 @@
+# app/routes/other_user_profile.py
+
 from flask import Blueprint, render_template, current_app, abort
 from bson import ObjectId
 
 other_user_profile_bp = Blueprint("other_user_profile", __name__)
 
 @other_user_profile_bp.route("/user/<username>")
-def other_user_profile(username):
-    user = current_app.db.users.find_one({"username": username})
+def other_user_profile(username: str):
+    db = current_app.db
+
+    # user
+    user = db.users.find_one({"username": username})
     if not user:
-        abort(404, description="User not found")
+        abort(404)
 
-    user_id = ObjectId(user["_id"])
-
-    favorite_songs = list(
-        current_app.db.songs
-        .find({"user_id": user_id, "favorite": True})
-        .sort("_id", -1)
-        .limit(10)
-    )
-
-    recent_songs = list(
-        current_app.db.songs
-        .find({"user_id": user_id})
-        .sort("_id", -1)
-        .limit(5)
-    )
-
-    for s in favorite_songs + recent_songs:
-        s["_id"] = str(s["_id"])
-
-    all_songs = list(current_app.db.songs.find({"user_id": user_id}))
-    stats = {
-        "total": len(all_songs),
-        "five_star": sum(1 for s in all_songs if s.get("rating") == 5),
-        "four_star": sum(1 for s in all_songs if s.get("rating") == 4),
-        "three_star": sum(1 for s in all_songs if s.get("rating") == 3),
-        "two_star": sum(1 for s in all_songs if s.get("rating") == 2),
-        "one_star": sum(1 for s in all_songs if s.get("rating") == 1),
+    # (now includes genre/year)
+    proj = {
+        "title": 1,
+        "artist": 1,
+        "rating": 1,
+        "review": 1,
+        "genre": 1,
+        "year": 1,
     }
+
+    # favorites (latest first)
+    favorite_songs = list(
+        db.songs.find({"user_id": user["_id"], "favorite": True}, proj)
+        .sort("_id", -1)
+        .limit(50)
+    )
+
+    # recent (latest first)
+    recent_songs = list(
+        db.songs.find({"user_id": user["_id"]}, proj)
+        .sort("_id", -1)
+        .limit(50)
+    )
+
+    # stats
+    total = db.songs.count_documents({"user_id": user["_id"]})
+    stats = {
+        "total": total,
+        "five_star": db.songs.count_documents({"user_id": user["_id"], "rating": 5}),
+        "four_star": db.songs.count_documents({"user_id": user["_id"], "rating": 4}),
+        "three_star": db.songs.count_documents({"user_id": user["_id"], "rating": 3}),
+        "two_star": db.songs.count_documents({"user_id": user["_id"], "rating": 2}),
+        "one_star": db.songs.count_documents({"user_id": user["_id"], "rating": 1}),
+    } if total else None
 
     return render_template(
         "other_user_profile.html",

@@ -1,3 +1,4 @@
+{# app/templates/other_user_profile.html #}
 {% extends "base.html" %}
 {% block page_title %}{{ user.username }}'s Profile{% endblock %}
 
@@ -7,23 +8,37 @@
 
   <div class="fav-songs">
     <h2>Favorite Songs</h2>
-    <ol>
-      {% for song in favorite_songs %}
-        <li>{{ song.title }} | {{ song.artist }} | {{ song.rating }} ★| {{ song.review }} </li>
-      {% endfor %}
-    </ol>
+    {% if favorite_songs %}
+      <ol>
+        {% for song in favorite_songs %}
+          <li>
+            {{ song.title }} | {{ song.artist }} | {{ song.rating }} ★ | {{ song.review or '—' }}
+            | {{ song.genre or '—' }} | {{ song.year or '—' }}
+          </li>
+        {% endfor %}
+      </ol>
+    {% else %}
+      <p><em>No favorites yet.</em></p>
+    {% endif %}
   </div>
 
-  <div class="recent-songs">
+  <div class="recent-songs" style="margin-top:1rem;">
     <h2>Recently Added</h2>
-    <ol>
-      {% for song in recent_songs %}
-        <li>{{ song.title }} | {{ song.artist }} | {{ song.rating }} ★</li>
-      {% endfor %}
-    </ol>
+    {% if recent_songs %}
+      <ol>
+        {% for song in recent_songs %}
+          <li>
+            {{ song.title }} | {{ song.artist }} | {{ song.rating }} ★
+            | {{ song.genre or '—' }} | {{ song.year or '—' }}
+          </li>
+        {% endfor %}
+      </ol>
+    {% else %}
+      <p><em>No recent songs.</em></p>
+    {% endif %}
   </div>
 
-  <div class="profile-stats">
+  <div class="profile-stats" style="margin-top:1rem;">
     <h2>Stats</h2>
     {% if stats %}
       <p>Total Songs: {{ stats.total }} songs</p>
@@ -37,9 +52,9 @@
     {% endif %}
   </div>
 
-  <a href="{{ url_for('songs.all_songs') }}"
+  <a href="{{ url_for('home.home') }}"
      class="button"
      style="display:block;width:100%;text-align:center;margin-top:12px;">
-    All Songs
+    Back to Profiles
   </a>
 {% endblock %}
