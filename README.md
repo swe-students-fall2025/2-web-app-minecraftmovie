@@ -24,4 +24,5 @@ All user stories are tracked as GitHub Issues:
 
 ## Task boards
 
-Task Board: (https://github.com/orgs/swe-students-fall2025/projects/6)
+[Sprint 1 Taskboard](https://github.com/orgs/swe-students-fall2025/projects/57/views/1)  
+[Sprint 2 Taskboard](https://github.com/orgs/swe-students-fall2025/projects/57/views/1)
