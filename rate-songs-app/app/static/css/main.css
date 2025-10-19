@@ -1,80 +1,97 @@
-:root { color-scheme: light; scrollbar-gutter: stable both-edges; }
+:root { 
+  color-scheme: light; 
+  scrollbar-gutter: stable both-edges; 
+  --main-color: #6a0dad;       /* purple */
+  --main-hover: #580b9e;       /* darker purple */
+  --secondary-color: #ffffff;  /* white */
+  --text-color: #111; 
+}
 * { box-sizing: border-box; }
-html, body { margin: 0; padding: 0; font-family: system-ui, Arial, sans-serif; color: #111; background: #fafafa;
-  overflow-y: scroll;  }
+html, body { 
+  margin: 0; padding: 0; 
+  font-family: system-ui, Arial, sans-serif; 
+  color: var(--text-color); 
+  background: var(--secondary-color);
+  overflow-y: scroll;  
+}
 
-/* Top header (permenantly at top) */
+/* Top header (permanently at top) */
 .app-header {
   position: sticky; top: 0; z-index: 10;
   display: flex; align-items: center; justify-content: center;
-  height: 56px; background: #fff; border-bottom: 1px solid #eee;
+  height: 56px; background: var(--main-color); border-bottom: 1px solid #d8b4fe;
+  color: var(--secondary-color);
 }
 .brand { position:absolute; font-weight: 700; font-size: 18px;}
-.brand a {color:black; text-decoration: none;}
+.brand a {color: var(--secondary-color); text-decoration: none;}
 .brand a:hover {
-  color: #797979;
-  text-decoration: underline; /* optional hover color */
+  color: #e5d4ff;
+  text-decoration: underline;
 }
 
-
 /* Main content area */
-
 .app-main {
   min-height: 100dvh;
-  padding: 16px 16px 90px; /* space for bottom nav */
+  padding: 16px 16px 90px;
 }
 
 /* center every page’s content */
 .app-container{
-  max-width: 42rem;       /* ~672px; adjust if you want narrower */
-  margin: 0 auto;         /* centers horizontally */
-  padding: 0 16px;        /* side gutters */
+  max-width: 42rem;
+  margin: 0 auto;
+  padding: 0 16px;
 }
 
 /* bottom nav bar */
-
 .bottom-nav {
   position: fixed; left: 0; right: 0; bottom: 0;
   display: grid; grid-template-columns: repeat(3, 1fr);
-  gap: 4px; padding: 8px; background: #fff; border-top: 1px solid #eee;
+  gap: 4px; padding: 8px; background: var(--main-color); border-top: 1px solid #d8b4fe;
 }
-/* nav links */
-.bottom-nav a { text-align: center; padding: 10px 0; text-decoration: none; color: #111; }
-.bottom-nav a:hover { text-decoration:underline; color:#797979; }
+.bottom-nav a { text-align: center; padding: 10px 0; text-decoration: none; color: var(--secondary-color); }
+.bottom-nav a:hover { text-decoration: underline; color: #e5d4ff; }
 
-/* base layout for different classes (can be adjusted) */
-
+/* base layout */
 .hero h1 { font-size: 24px; margin: 0 0 8px; }
 .hero p { margin: 6px 0; }
+
 .button, button {
   display: inline-block; padding: 12px 16px; border-radius: 12px;
-  border: 1px solid #ddd; background: #fff; text-decoration: none; color: #111;
+  border: 1px solid var(--main-color); background: var(--main-color);
+  text-decoration: none; color: var(--secondary-color);
+  transition: background .2s ease;
+}
+.button:hover, button:hover {
+  background: var(--main-hover);
 }
 button:active, .button:active { transform: scale(0.98); }
-input, select, textarea { width: 100%; padding: 12px; font-size: 16px; border: 1px solid #ddd; border-radius: 12px; }
+
+input, select, textarea { 
+  width: 100%; padding: 12px; font-size: 16px; 
+  border: 1px solid #ccc; border-radius: 12px; 
+}
 
 /* navigation links */
-/* .nav-links {position:absolute; right: 20px; top: 14px; } */
+.nav-link { text-decoration: none; font-weight: 500; color: var(--secondary-color);}
+.nav-link:hover { text-decoration: underline; color: var(--secondary-color);}
 .nav-links > #view-profile{margin-right: 220px}
 .nav-links #login{padding-left: 300px}
-.nav-link { text-decoration: none; font-weight: 500; color:black;}
-.nav-link:hover { text-decoration: underline; color: #797979;}
 
-/* for login */
-
+/* login page */
 .login-container {
   display: flex; justify-content: center; align-items: center;
   min-height: calc(100vh - 56px);
-  background: #fafafa;
+  background: var(--secondary-color);
 }
 .login-card {
-  background: #fff; padding: 40px; width: 300px; text-align: center;
+  background: var(--secondary-color); padding: 40px; width: 300px; text-align: center;
   border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,.1);
+  border: 1px solid #d8b4fe;
 }
 .logo-placeholder {
-  background: #ddd; width: 100px; height: 100px; margin: 0 auto 20px;
+  background: #d8b4fe; width: 100px; height: 100px; margin: 0 auto 20px;
   display: flex; align-items: center; justify-content: center; border-radius: 12px;
-  font-size: 14px;
+  font-size: 14px; color: var(--main-color);
 }
 .login-form label { display: block; text-align: left; font-size: 14px; margin: 10px 0 4px; }
 .login-form input {
@@ -83,11 +100,11 @@ input, select, textarea { width: 100%; padding: 12px; font-size: 16px; border: 1
 }
 .login-btn {
   width: 100%; padding: 10px; border: none; border-radius: 8px; cursor: pointer;
-  font-size: 16px; background: #111; color: #fff; transition: .25s;
+  font-size: 16px; background: var(--main-color); color: var(--secondary-color); transition: .25s;
 }
-.login-btn:hover { background: #333; }
-.forgot-password { display: block; margin-top: 15px; font-size: 14px; color: #555; }
-.forgot-password:hover { text-decoration: underline; }
+.login-btn:hover { background: var(--main-hover); }
+.forgot-password { display: block; margin-top: 15px; font-size: 14px; color: var(--main-color); }
+.forgot-password:hover { text-decoration: underline; color: var(--main-hover); }
 
 .flash-wrap { margin-bottom: 12px; text-align: left; }
 .flash { padding: 10px; border-radius: 8px; font-size: 14px; }
@@ -95,15 +112,9 @@ input, select, textarea { width: 100%; padding: 12px; font-size: 16px; border: 1
 .flash-success { background: #e6ffe6; }
 .flash-info { background: #e7f0ff; }
 
-
-/* for profile page */
-.fav-songs li {
-  padding-bottom: 10px;
-}
-
-.recent-songs li {
-  padding-bottom: 10px;
-}
+/* profile page */
+.fav-songs li,
+.recent-songs li { padding-bottom: 10px; }
 
 .profile-stats > p {
   padding-bottom: 0px;
@@ -111,7 +122,7 @@ input, select, textarea { width: 100%; padding: 12px; font-size: 16px; border: 1
   padding-left: 20px;
 }
 
-/* === Browse-by-taste buttons === */ /* :PPPPPP */
+/* === Browse-by-taste buttons === */
 .quick-grid{
   display:grid;
   grid-template-columns:repeat(auto-fit, minmax(110px,1fr));
@@ -123,20 +134,20 @@ input, select, textarea { width: 100%; padding: 12px; font-size: 16px; border: 1
 .quick-btn:visited{
   display:block;
   padding:.65rem .8rem;
-  border:1px solid #ddd;
+  border:1px solid var(--main-color);
   border-radius:9999px;          
-  background:#fff;
+  background: var(--secondary-color);
   text-align:center;
   font-weight:500;
-  color:#111;
+  color: var(--main-color);
   text-decoration:none;          
   white-space:nowrap;           
   overflow:hidden;
   text-overflow:ellipsis;        
   box-shadow:0 1px 2px rgba(0,0,0,.04);
-  transition:transform .12s ease, border-color .12s ease;
+  transition:transform .12s ease, border-color .12s ease, background .12s ease;
 }
-.quick-btn:hover{ border-color:#bbb; transform:translateY(-1px); }
+.quick-btn:hover{ background: var(--main-color); color: var(--secondary-color); transform:translateY(-1px); }
 .quick-btn:active{ transform:translateY(0); }
 
 @media (max-width:480px){
@@ -152,7 +163,7 @@ input, select, textarea { width: 100%; padding: 12px; font-size: 16px; border: 1
   max-width: 24rem;
 }
 .taste-rail::-webkit-scrollbar{ height: 4px; }
-.taste-rail::-webkit-scrollbar-thumb{ background: #ddd; border-radius: 4px; }
+.taste-rail::-webkit-scrollbar-thumb{ background: #d8b4fe; border-radius: 4px; }
 
 .taste-track{
   display: grid;
@@ -173,7 +184,7 @@ input, select, textarea { width: 100%; padding: 12px; font-size: 16px; border: 1
 .taste-thumb{
   width: 100%;
   aspect-ratio: 1 / 1;
-  background: #ddd;
+  background: #d8b4fe;
   border-radius: .3rem;
   display: flex;
   align-items: center;
@@ -181,12 +192,11 @@ input, select, textarea { width: 100%; padding: 12px; font-size: 16px; border: 1
   margin-bottom: .25rem;
 }
 
-.taste-name{ font-size: .8rem; font-weight: 600; }
+.taste-name{ font-size: .8rem; font-weight: 600; color: var(--main-color); }
 
 @media (max-width: 420px){
   .taste-rail{ max-width: 100%; }
 }
-
 
 .edit-btn, .delete-btn {
   display: inline-flex;
@@ -194,59 +204,52 @@ input, select, textarea { width: 100%; padding: 12px; font-size: 16px; border: 1
   justify-content: center;
   width: 26px;
   height: 26px;
-  border: 1px solid #d1d5db; 
+  border: 1px solid var(--main-color); 
   border-radius: 6px;
-  background: #f9fafb;
+  background: var(--secondary-color);
   font-size: 16px;
   cursor: pointer;
   transition: all 0.2s ease;
   margin-left: 8px;
   text-decoration: none;
-  color: inherit; 
+  color: var(--main-color);
 }
-
 .edit-btn:hover, .delete-btn:hover {
-  background: #e0f2fe;
-  border-color: #60a5fa;
+  background: var(--main-color);
+  color: var(--secondary-color);
   transform: scale(1.1);
   text-decoration: none; 
 }
 
+/* Modal */
 .modal {
   display: none;
   position: fixed;
   z-index: 1000;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
   background: rgba(0, 0, 0, 0.4);
   justify-content: center;
   align-items: center;
   animation: fadeIn 0.2s ease-in-out;
 }
-
-.modal.show {
-  display: flex;
-}
-
+.modal.show { display: flex; }
 .modal-content {
-  background: #fff;
+  background: var(--secondary-color);
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
   width: 320px;
   text-align: center;
   animation: popIn 0.2s ease-in-out;
+  border: 1px solid #d8b4fe;
 }
-
 .modal-buttons {
   display: flex;
   justify-content: center;
   gap: 10px;
   margin-top: 16px;
 }
-
 .confirm-btn {
   background: #ef4444;
   color: white;
@@ -256,11 +259,7 @@ input, select, textarea { width: 100%; padding: 12px; font-size: 16px; border: 1
   cursor: pointer;
   transition: background 0.2s ease;
 }
-
-.confirm-btn:hover {
-  background: #dc2626;
-}
-
+.confirm-btn:hover { background: #dc2626; }
 .cancel-btn {
   background: #e5e7eb;
   border: none;
@@ -269,7 +268,4 @@ input, select, textarea { width: 100%; padding: 12px; font-size: 16px; border: 1
   cursor: pointer;
   transition: background 0.2s ease;
 }
-
-.cancel-btn:hover {
-  background: #d1d5db;
-}
+.cancel-btn:hover { background: #d1d5db; }
