@@ -1,20 +1,23 @@
-{# app/templates/home.html — PROFILE SEARCH (clickable profiles) #}
 {% extends "base.html" %}
+
+{% block body_class %}no-page-scroll{% endblock %}
 {% block page_title %}Profile Search{% endblock %}
 
 {% block page_content %}
-  <!-- search -->
   <section style="margin-top:.5rem;">
     <label for="q"><strong>Profile Search</strong></label>
-    <form action="{{ url_for('home.home') }}" method="get" style="display:flex;gap:.5rem;margin-top:.4rem;">
+    <form id="search-form" action="{{ url_for('home.home') }}" method="get"
+          style="display:flex;gap:.5rem;margin-top:.4rem;">
       <input id="q" name="q" type="search" value="{{ q or '' }}"
-             placeholder="Search name, username, or email…" style="flex:1;padding:.6rem .8rem;">
+             placeholder="Search name, username, or email…"
+             style="flex:1;padding:.6rem .8rem;">
       <button class="button" type="submit">Search</button>
-      {% if q %}<a class="button" href="{{ url_for('home.home') }}">Clear</a>{% endif %}
+      {% if q %}
+        <a class="button button--gray" href="{{ url_for('home.home') }}">Clear</a>
+      {% endif %}
     </form>
   </section>
 
-  <!-- history -->
   {% if history %}
   <section style="margin-top:1rem;">
     <p><strong>Your Search History</strong></p>
@@ -26,30 +29,45 @@
   </section>
   {% endif %}
 
-  <!-- profile results -->
-  <section style="margin-top:1.5rem;">
+  <section style="margin-top:1.25rem;">
     <h3>Profiles{% if q %} — “{{ q }}”{% endif %}</h3>
+
     {% if users %}
-      <ul style="list-style:none;padding:0;margin:.5rem 0;display:grid;gap:.6rem;">
-        {% for u in users %}
-          {% if u.username %}
-            <a href="{{ url_for('other_user_profile.other_user_profile', username=u.username) }}"
-               style="display:block;padding:.7rem .9rem;border:1px solid #eee;border-radius:.6rem;background:#fff;text-decoration:none;color:inherit;">
-              <div><strong>{{ u.name or u.username or u.email }}</strong></div>
-              <div style="opacity:.75;font-size:.95rem;">@{{ u.username }}</div>
-              {% if u.email %}<div style="opacity:.65;font-size:.9rem;">{{ u.email }}</div>{% endif %}
-            </a>
-          {% else %}
-            <li style="padding:.7rem .9rem;border:1px solid #eee;border-radius:.6rem;background:#fff;">
-              <div><strong>{{ u.name or u.email }}</strong></div>
-              {% if u.email %}<div style="opacity:.75;font-size:.95rem;">{{ u.email }}</div>{% endif %}
-              <div style="opacity:.6;font-size:.85rem;">(no username — cannot open profile)</div>
-            </li>
-          {% endif %}
-        {% endfor %}
-      </ul>
+      <div id="results" class="results is-ready results-pane">
+        <ul style="list-style:none; margin:0; padding:0; display:grid; gap:.6rem;">
+          {% for u in users %}
+            {% if u.username %}
+              <li class="result-card">
+                <a href="{{ url_for('other_user_profile.other_user_profile', username=u.username) }}"
+                   class="result-link">
+                  <div style="font-weight:700;">{{ u.name or u.username or u.email }}</div>
+                  <div style="opacity:.8;">@{{ u.username }}</div>
+                  {% if u.email %}<div style="opacity:.7;font-size:.95rem;">{{ u.email }}</div>{% endif %}
+                </a>
+              </li>
+            {% else %}
+              <li class="result-card">
+                <div style="font-weight:700;">{{ u.name or u.email }}</div>
+                {% if u.email %}<div style="opacity:.8;">{{ u.email }}</div>{% endif %}
+                <div style="opacity:.6;font-size:.9rem;">(no username — cannot open profile)</div>
+              </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
     {% else %}
       <p><em>No profiles found.</em></p>
     {% endif %}
   </section>
+
+  <script>
+    // replay the entrance animation each render
+    document.addEventListener('DOMContentLoaded', () => {
+      const results = document.getElementById('results');
+      if (results) {
+        results.classList.remove('is-ready');
+        requestAnimationFrame(() => results.classList.add('is-ready'));
+      }
+    });
+  </script>
 {% endblock %}
