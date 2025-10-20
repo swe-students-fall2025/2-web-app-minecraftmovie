@@ -17,18 +17,53 @@ html, body {
 
 /* Top header (permanently at top) */
 .app-header {
-  position: sticky; top: 0; z-index: 10;
-  display: flex; align-items: center; justify-content: center;
-  height: 56px; background: var(--main-color); border-bottom: 1px solid #d8b4fe;
+  position: sticky; 
+  top: 0; 
+  z-index: 10;
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between;       
+  height: 56px; 
+  padding: 0 16px;                      
+  background: var(--main-color); 
+  border-bottom: 1px solid #d8b4fe;
   color: var(--secondary-color);
 }
-.brand { position:absolute; font-weight: 700; font-size: 18px;}
-.brand a {color: var(--secondary-color); text-decoration: none;}
+
+.brand { 
+  font-weight: 700; 
+  font-size: 18px;
+}
+
+.brand a { 
+  color: var(--secondary-color); 
+  text-decoration: none;
+}
 .brand a:hover {
   color: #e5d4ff;
   text-decoration: underline;
 }
 
+.nav-links {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;                            
+}
+
+.nav-link { 
+  text-decoration: none; 
+  font-weight: 500; 
+  color: var(--secondary-color);
+}
+.nav-link:hover { 
+  text-decoration: underline; 
+  color: var(--secondary-color);
+}
+
+
+.nav-links > #view-profile { margin-right: 0; }
+.nav-links #login { padding-left: 0; }
 /* Main content area */
 .app-main {
   min-height: 100dvh;
@@ -45,12 +80,29 @@ html, body {
 /* bottom nav bar */
 .bottom-nav {
   position: fixed; left: 0; right: 0; bottom: 0;
-  display: grid; grid-template-columns: repeat(3, 1fr);
-  gap: 4px; padding: 8px; background: var(--main-color); border-top: 1px solid #d8b4fe;
+  display: flex;                        
+  align-items: stretch;
+  justify-content: stretch;
+  gap: 0;                               
+  padding: 8px;
+  background: var(--main-color);
+  border-top: 1px solid #d8b4fe;
 }
-.bottom-nav a { text-align: center; padding: 10px 0; text-decoration: none; color: var(--secondary-color); }
-.bottom-nav a:hover { text-decoration: underline; color: #e5d4ff; }
 
+.bottom-nav a { 
+  flex: 1 1 0;                          
+  text-align: center; 
+  padding: 10px 0; 
+  text-decoration: none; 
+  color: var(--secondary-color); 
+}
+
+.bottom-nav a:hover { 
+  text-decoration: underline; 
+  color: #e5d4ff; 
+}
+/* remove previous grid-specific rule */
+.bottom-nav a#view-profile { justify-self: auto; }
 /* base layout */
 .hero h1 { font-size: 24px; margin: 0 0 8px; }
 .hero p { margin: 6px 0; }
