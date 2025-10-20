@@ -1,4 +1,4 @@
-{# app/templates/home.html — PROFILE SEARCH with horizontal 3×2 browse rail #}
+{# app/templates/home.html — PROFILE SEARCH (clickable profiles) #}
 {% extends "base.html" %}
 {% block page_title %}Profile Search{% endblock %}
 
@@ -8,7 +8,7 @@
     <label for="q"><strong>Profile Search</strong></label>
     <form action="{{ url_for('home.home') }}" method="get" style="display:flex;gap:.5rem;margin-top:.4rem;">
       <input id="q" name="q" type="search" value="{{ q or '' }}"
-             placeholder="Search name or email…" style="flex:1;padding:.6rem .8rem;">
+             placeholder="Search name, username, or email…" style="flex:1;padding:.6rem .8rem;">
       <button class="button" type="submit">Search</button>
       {% if q %}<a class="button" href="{{ url_for('home.home') }}">Clear</a>{% endif %}
     </form>
@@ -26,40 +26,26 @@
   </section>
   {% endif %}
 
-  <!-- browse by taste -->
-  <section style="margin-top:1.25rem;">
-    <h3>Browse by taste</h3>
-    <div class="taste-rail">
-      <div class="taste-track">
-        {% set preset = ['Pop','Rock','Hip-Hop','Alternative','R&B','Soul','Electronic','Indie','Country','Jazz','Metal','Other','Pop/R&B'] %}
-        {% for label in preset %}
-          <a href="{{ url_for('home.home', q=label) }}" class="taste-card" title="{{ label }}">
-            <div class="taste-thumb">Genre</div>
-            <div class="taste-name">{{ label }}</div>
-          </a>
-        {% endfor %}
-        {% for g in genres %}
-          {% if g and g not in preset %}
-            <a href="{{ url_for('home.home', q=g) }}" class="taste-card" title="{{ g }}">
-              <div class="taste-thumb">Genre</div>
-              <div class="taste-name">{{ g }}</div>
-            </a>
-          {% endif %}
-        {% endfor %}
-      </div>
-    </div>
-  </section>
-
   <!-- profile results -->
   <section style="margin-top:1.5rem;">
     <h3>Profiles{% if q %} — “{{ q }}”{% endif %}</h3>
     {% if users %}
       <ul style="list-style:none;padding:0;margin:.5rem 0;display:grid;gap:.6rem;">
         {% for u in users %}
-          <li style="padding:.7rem .9rem;border:1px solid #eee;border-radius:.6rem;background:#fff;">
-            <div><strong>{{ u.username or u.email }}</strong></div>
-            <div style="opacity:.75;font-size:.95rem;">{{ u.email or '—' }}</div>
-          </li>
+          {% if u.username %}
+            <a href="{{ url_for('other_user_profile.other_user_profile', username=u.username) }}"
+               style="display:block;padding:.7rem .9rem;border:1px solid #eee;border-radius:.6rem;background:#fff;text-decoration:none;color:inherit;">
+              <div><strong>{{ u.name or u.username or u.email }}</strong></div>
+              <div style="opacity:.75;font-size:.95rem;">@{{ u.username }}</div>
+              {% if u.email %}<div style="opacity:.65;font-size:.9rem;">{{ u.email }}</div>{% endif %}
+            </a>
+          {% else %}
+            <li style="padding:.7rem .9rem;border:1px solid #eee;border-radius:.6rem;background:#fff;">
+              <div><strong>{{ u.name or u.email }}</strong></div>
+              {% if u.email %}<div style="opacity:.75;font-size:.95rem;">{{ u.email }}</div>{% endif %}
+              <div style="opacity:.6;font-size:.85rem;">(no username — cannot open profile)</div>
+            </li>
+          {% endif %}
         {% endfor %}
       </ul>
     {% else %}
