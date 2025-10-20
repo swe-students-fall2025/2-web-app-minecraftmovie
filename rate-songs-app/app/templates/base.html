@@ -27,9 +27,9 @@
       </div>
     </main>
 
-    <nav class="bottom-nav">
+    <nav class="bottom-nav"> <!-- bar at the bottom for buttons -->
       {% if current_user.is_authenticated %}
-      <a href="{{ url_for('home.home') }}">Home</a>   <!-- bar at the bottom for buttons -->
+      <a href="{{ url_for('home.home') }}">Home</a>   
       <a href="{{ url_for('profile.view_profile') }}">View Profile</a>
       {% else %}
       <a href="{{ url_for('home.home') }}">Home</a>

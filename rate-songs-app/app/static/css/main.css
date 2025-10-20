@@ -22,9 +22,9 @@ html, body {
   z-index: 10;
   display: flex; 
   align-items: center; 
-  justify-content: space-between;       /* spreads brand and nav */
+  justify-content: space-between;       
   height: 56px; 
-  padding: 0 16px;                      /* spacing on sides */
+  padding: 0 16px;                      
   background: var(--main-color); 
   border-bottom: 1px solid #d8b4fe;
   color: var(--secondary-color);
@@ -48,7 +48,7 @@ html, body {
   margin-left: auto;
   display: flex;
   align-items: center;
-  gap: 12px;                            /* evenly space links */
+  gap: 12px;                            
 }
 
 .nav-link { 
@@ -61,7 +61,7 @@ html, body {
   color: var(--secondary-color);
 }
 
-/* remove old positioning overrides */
+
 .nav-links > #view-profile { margin-right: 0; }
 .nav-links #login { padding-left: 0; }
 /* Main content area */
@@ -80,17 +80,17 @@ html, body {
 /* bottom nav bar */
 .bottom-nav {
   position: fixed; left: 0; right: 0; bottom: 0;
-  display: flex;                        /* use flex so any count of items is even */
+  display: flex;                        
   align-items: stretch;
   justify-content: stretch;
-  gap: 0;                               /* no gaps so segments touch edge-to-edge */
+  gap: 0;                               
   padding: 8px;
   background: var(--main-color);
   border-top: 1px solid #d8b4fe;
 }
 
 .bottom-nav a { 
-  flex: 1 1 0;                          /* each link takes equal width */
+  flex: 1 1 0;                          
   text-align: center; 
   padding: 10px 0; 
   text-decoration: none; 
