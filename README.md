@@ -20,6 +20,7 @@ All user stories are tracked as GitHub Issues:
 5. activate it by running: Windows: .venv\Scripts\activate ,  macOS/Linux: source .venv/bin/activate
 6. install all versions needed, pip install -r requirements.txt
 7. run command "python run.py"
+8. Once the server starts, open your web browser and go to the link that it is running on, e.g (http://127.0.0.1:5000/)
 
 
 ## Task boards
