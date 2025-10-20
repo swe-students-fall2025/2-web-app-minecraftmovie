@@ -12,7 +12,7 @@
       
       <nav class="nav-links">
         {% if current_user.is_authenticated %}
-          <a href="{{ url_for('profile.view_profile') }}" class="nav-link" id="view-profile">View Profile</a>
+
           <a href="{{ url_for('auth.logout') }}" class="nav-link" style="margin:10px;">Logout</a>
           <a href="{{ url_for('upload.upload_song') }}" class="nav-link"id="upload">Upload & Rate</a>
         {% else %}
@@ -28,7 +28,13 @@
     </main>
 
     <nav class="bottom-nav">
+      {% if current_user.is_authenticated %}
       <a href="{{ url_for('home.home') }}">Home</a>   <!-- bar at the bottom for buttons -->
+      <a href="{{ url_for('profile.view_profile') }}">View Profile</a>
+      {% else %}
+      <a href="{{ url_for('home.home') }}">Home</a>
+      <a href="{{ url_for('auth.login') }}" >Login</a>
+      {% endif %}
     </nav>
   </body>
 </html>
